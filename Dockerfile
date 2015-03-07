@@ -23,11 +23,15 @@ ADD conf/storage-schemas.conf /etc/carbon/storage-schemas.conf
 # Install Apache And mod-wsgi
 RUN apt-get install -yqq apache2 libapache2-mod-wsgi
 RUN cp /usr/share/graphite-web/apache2-graphite.conf /etc/apache2/sites-available/
+ADD conf/httpd.conf /etc/apache2/
 RUN a2dissite 000-default
 RUN a2ensite apache2-graphite
 
-EXPOSE 80
+# Install Collectd And Add the Configuration
+RUN apt-get install -yqq collectd collectd-utils
+ADD conf/collectd.conf /etc/collectd/collectd.conf
+ADD run.sh run.sh
+#RUN echo "127.0.1.1 localhost rancher" >> /etc/hosts
 
-# RUN carbon_cache.py daemon 
-RUN service carbon-cache start
-ENTRYPOINT usr/sbin/apache2ctl -D FOREGROUND
+EXPOSE 80 25826/udp 2003 2004 7002
+ENTRYPOINT ["/bin/bash","run.sh"]
