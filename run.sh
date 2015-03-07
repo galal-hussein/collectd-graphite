@@ -1,4 +1,3 @@
-echo "127.0.1.1 localhost rancher" >> /etc/hosts
 service carbon-cache start
 sleep 5
 service collectd start
