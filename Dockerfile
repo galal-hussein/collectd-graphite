@@ -33,5 +33,5 @@ ADD conf/collectd.conf /etc/collectd/collectd.conf
 ADD run.sh run.sh
 #RUN echo "127.0.1.1 localhost rancher" >> /etc/hosts
 
-EXPOSE 80 25826/udp 2003 2004 7002
+EXPOSE 80 2003 2004 7002
 ENTRYPOINT ["/bin/bash","run.sh"]
